@@ -1,11 +1,19 @@
 import { FastifyPlugin, FastifyRequest, FastifyReply, preHandlerHookHandler, FastifyInstance } from 'fastify';
 
-export type FastifyAuthFunction = (
+type FastifyAuthFunctionCallback = (
   this: FastifyInstance,
   request: FastifyRequest,
   reply: FastifyReply,
   done: (error?: Error) => void
 ) => void;
+
+type FastifyAuthFunctionAsync = (
+  this: FastifyInstance,
+  request: FastifyRequest,
+  reply: FastifyReply,
+) => Promise<void>;
+
+export type FastifyAuthFunction = FastifyAuthFunctionCallback | FastifyAuthFunctionAsync;
 
 declare module 'fastify' {
   interface FastifyInstance {
